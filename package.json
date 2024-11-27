@@ -1,11 +1,12 @@
 {
-    "name": "desafio---02-aws-node-set-24",
+    "name": "desafio---03-aws-node-set-24",
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/shared/http/server.ts",
-        "start": "ts-node src/shared/http/server.ts"
+        "build": "tsc",
+        "test": "jest",
+        "dev": "ts-node-dev tsconfig-paths/register --inspect --transpile-only  --ignore-watch node_modules src/shared/http/server.ts",
+        "start": "pm2 start build/shared/http/server.js --name compassApi --watch -i 0"
     },
     "keywords": [],
     "author": "",
@@ -17,6 +18,7 @@
         "@types/cors": "^2.8.17",
         "@types/dotenv": "^8.2.3",
         "@types/express": "^5.0.0",
+        "@types/jest": "^29.5.14",
         "@types/joi": "^17.2.2",
         "@types/jsonwebtoken": "^9.0.7",
         "@types/node": "^22.8.4",
@@ -27,6 +29,7 @@
         "eslint": "^9.13.0",
         "eslint-config-prettier": "^9.1.0",
         "globals": "^15.11.0",
+        "jest": "^29.7.0",
         "prettier": "^3.3.3",
         "sequelize-cli": "^6.6.2",
         "ts-node-dev": "^2.0.0",
@@ -43,7 +46,7 @@
         "express": "^4.21.1",
         "express-async-errors": "^3.1.1",
         "jsonwebtoken": "^9.0.2",
-        "mysql2": "^3.11.3",
+        "pg": "^8.13.1",
         "sequelize": "^6.37.5"
     }
 }
