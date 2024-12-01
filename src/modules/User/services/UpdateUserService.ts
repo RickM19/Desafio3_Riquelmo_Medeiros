@@ -1,5 +1,6 @@
 import User from '../models/User';
 import { AppError } from '../../../shared/errors/AppError';
+import { hash } from 'bcryptjs';
 
 interface IUpdatedProperties {
     name?: string;
@@ -34,7 +35,8 @@ export default class UpdateUserService {
             updatedValues.name = name;
         }
         if (password) {
-            updatedValues.password = password;
+            const hashedPassword = await hash(password, 8);
+            updatedValues.password = hashedPassword;
         }
         await User.update(updatedValues, { where: { id } });
         return;

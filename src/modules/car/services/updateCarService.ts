@@ -9,7 +9,7 @@ interface IUpdatedProperties {
     year?: number;
     items?: string[];
     price?: number;
-    status?: 'active' | 'inactive';
+    status?: 'active' | 'inactive' | unknown;
 }
 
 export default class UpdateCarService {

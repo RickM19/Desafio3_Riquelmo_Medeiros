@@ -31,7 +31,11 @@ Customer.init(
         dataRegistro: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }, // Data de registro, valor padrão é a data atual
         createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }, // Data de criação, valor padrão é a data atual
         updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW }, // Data de atualização, valor padrão é a data atual
-        deletedAt: { type: DataTypes.DATE, allowNull: true }, // Data de exclusão, pode ser nula
+        deletedAt: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            defaultValue: null,
+        }, // Data de exclusão, pode ser nula
     },
     {
         sequelize, // Instância do Sequelize

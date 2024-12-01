@@ -3,7 +3,6 @@
 
 import Order from '../models/Order';
 import Customer from '../../customer/models/Customer';
-import { AppError } from '../../../shared/errors/AppError';
 import { Op } from 'sequelize';
 
 interface GetOdersParams {
@@ -15,15 +14,29 @@ interface GetOdersParams {
     pageSize?: number;
 }
 
-const getOrders = async ({ status, CPF, DataInicial, DataFinal, page, pageSize }: GetOdersParams): Promise <{ totalOrders: number; totalPages: number; orders: Order[] }> => {
-    const where: Record<string, unknown >= {};
+const getOrders = async ({
+    status,
+    CPF,
+    DataInicial,
+    DataFinal,
+    page,
+    pageSize,
+}: GetOdersParams): Promise<{
+    totalOrders: number;
+    totalPages: number;
+    orders: Order[];
+}> => {
+    const where: Record<string, unknown> = {};
+    let ordenacao = 'ASC';
+    let ordem = 'DataInicial';
 
     if (status) {
         where.status = status;
     }
 
     if (CPF) {
-        where.CPF = CPF
+        const searchCPF = await Customer.findOne({ where: { CPF } });
+        where.cliente = searchCPF?.id;
     }
 
     if (DataInicial || DataFinal) {
@@ -31,26 +44,45 @@ const getOrders = async ({ status, CPF, DataInicial, DataFinal, page, pageSize }
         where.DataFinal = {};
 
         if (DataInicial) {
-            where.DataInicial[Op.gte] = new Date(DataInicial)
+            where['DataInicial'] = { [Op.lte]: new Date(DataInicial) };
         }
 
         if (DataFinal) {
-            where.DataFinal[Op.lte] = new Date(DataFinal);
+            where['DataFinal'] = { [Op.lte]: new Date(DataFinal) };
+            ordenacao = 'DESC';
+            ordem = 'DataFinal';
         }
     }
 
     const { count, rows } = await Order.findAndCountAll({
         where,
-        order: [['DataInicial', 'ASC']],
+        order: [[ordem, ordenacao]],
         limit: pageSize,
         offset: (page - 1) * pageSize,
+        attributes: [
+            'id',
+            'status',
+            'DataInicial',
+            'DataFinal',
+            'DataCancelamento',
+            'ValorTotal',
+            'CEP',
+            'Cidade',
+            'UF',
+        ],
+        include: [
+            {
+                model: Customer,
+                attributes: ['id', 'nome', 'cpf'],
+            },
+        ],
     });
 
     return {
         totalOrders: count,
-        totalPages: Math.ceil( count / pageSize ),
+        totalPages: Math.ceil(count / pageSize),
         orders: rows,
     };
 };
 
-export default{ getOrders};
+export default { getOrders };

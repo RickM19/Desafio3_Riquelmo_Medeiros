@@ -9,6 +9,7 @@ module.exports = {
                 type: Sequelize.UUID,
                 defaultValue: Sequelize.UUIDV4,
                 primaryKey: true,
+                defaultValue: Sequelize.UUIDV4,
             },
             plate: {
                 type: Sequelize.STRING,
@@ -60,6 +61,8 @@ module.exports = {
             },
             deletedAt: {
                 type: Sequelize.DATE,
+                allowNull: true,
+                defaultValue: null,
             },
         });
     },

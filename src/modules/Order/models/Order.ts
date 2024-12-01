@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../../../config/sequelize';
-import  Customer  from "../../customer/models/Customer"
-import car from '../../car/models/car.model';
+import Customer from '../../customer/models/Customer';
+import Car from '@modules/car/models/car.model';
 
 class Order extends Model {
     declare id: string;
@@ -28,10 +28,10 @@ Order.init(
         cliente: {
             type: DataTypes.UUID,
             allowNull: false,
-             references: {
+            references: {
                 model: Customer, // nome do model cliente
-                key: 'id'
-            }
+                key: 'id',
+            },
         },
         DataInicial: {
             type: DataTypes.DATE,
@@ -50,7 +50,6 @@ Order.init(
             type: DataTypes.STRING,
             allowNull: true,
             defaultValue: null,
-
         },
         Cidade: {
             type: DataTypes.STRING,
@@ -70,10 +69,10 @@ Order.init(
         CarroPedido: {
             type: DataTypes.UUID,
             allowNull: false,
-             references: {
-                model: car, // nome do model cliente
-                key: 'id'
-            }
+            references: {
+                model: Car, // nome do model cliente
+                key: 'id',
+            },
         },
         DataFinal: {
             type: DataTypes.DATE,
@@ -84,7 +83,7 @@ Order.init(
             },
         },
         DataCancelamento: {
-            type: DataTypes.STRING,
+            type: DataTypes.DATE,
             allowNull: true,
             defaultValue: null,
             validate: {
@@ -97,11 +96,11 @@ Order.init(
         sequelize,
         paranoid: true,
         timestamps: true,
-        tableName: 'orders'
+        tableName: 'orders',
     },
 );
 
-Order.belongsTo(car, { foreignKey: 'CarroPedido'});
-Order.belongsTo(Customer, { foreignKey: 'cliente'});
+Order.belongsTo(Car, { foreignKey: 'CarroPedido' });
+Order.belongsTo(Customer, { foreignKey: 'cliente' });
 
 export default Order;

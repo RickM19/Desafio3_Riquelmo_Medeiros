@@ -1,6 +1,5 @@
 import Customer from '../models/Customer'; // Importa o modelo Customer
 import { AppError } from '../../../shared/errors/AppError'; // Importa a classe de erro personalizada
-import { v4 as uuidv4 } from 'uuid'; // Importa a função para gerar UUIDs
 import { Op } from 'sequelize'; // Importa operadores do Sequelize para consultas
 
 // Interface para definir a estrutura dos dados de um cliente
@@ -59,7 +58,6 @@ class CustomerService {
         const existingCustomer = await Customer.findOne({
             where: {
                 [Op.or]: [{ cpf }, { email }],
-                deletedAt: null, // Considera apenas clientes ativos
             },
         });
 
@@ -69,7 +67,6 @@ class CustomerService {
 
         // Criação do cliente
         const customer = await Customer.create({
-            id: uuidv4(), // Gerar um UUID para o id
             ...data,
             dataRegistro: new Date(),
         });
@@ -80,7 +77,7 @@ class CustomerService {
     // Método estático para obter um cliente pelo ID
     static async getCustomerById(id: string): Promise<Customer> {
         const customer = await Customer.findOne({
-            where: { id, deletedAt: null },
+            where: { id },
         });
 
         if (!customer) {
@@ -107,7 +104,6 @@ class CustomerService {
 
         const countCustomers = await Customer.count({
             where: {
-                deletedAt: null,
                 ...whereFilter,
             },
         });
@@ -115,7 +111,6 @@ class CustomerService {
         const pages = Math.ceil(countCustomers / limit);
         const customers = await Customer.findAll({
             where: {
-                deletedAt: null,
                 ...whereFilter,
             },
             limit,
@@ -136,30 +131,31 @@ class CustomerService {
     static async updateCustomer(
         id: string,
         data: Partial<ICustomerData>,
-    ): Promise<Customer> {
+    ): Promise<string> {
         const customer = await Customer.findOne({
-            where: { id, deletedAt: null },
+            where: { id },
         });
 
         if (!customer) {
             throw new AppError('Cliente não encontrado');
         }
 
-        await customer.update(data);
-        return customer;
+        await Customer.update(data, { where: { id } });
+
+        return customer.id;
     }
 
     // Método estático para deletar um cliente
     static async deleteCustomer(id: string): Promise<Customer> {
         const customer = await Customer.findOne({
-            where: { id, deletedAt: null },
+            where: { id },
         });
 
         if (!customer) {
             throw new AppError('Cliente não encontrado');
         }
 
-        await customer.update({ deletedAt: new Date() });
+        await Customer.destroy({ where: { id } });
         return customer;
     }
 }

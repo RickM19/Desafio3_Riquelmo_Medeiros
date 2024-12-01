@@ -1,6 +1,5 @@
 import { AppError } from '../../../shared/errors/AppError';
 import Car from '../models/car.model';
-import { v4 as uuidv4 } from 'uuid';
 
 interface CarData {
     plate: string;
@@ -36,7 +35,6 @@ export default async function createCar(data: CarData) {
     }
 
     const newCar = await Car.create({
-        id: uuidv4(),
         plate,
         brand,
         model,
