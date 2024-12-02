@@ -1,4 +1,4 @@
-# 💻 AWS Node - Desafio 02 API - GRUPO:THE BIG NODE THEORY
+# 💻 AWS Node - Desafio 03 API - (GRUPO:THE BIG NODE THEORY) - Riquelmo Medeiros
 
 ## Descrição
 
@@ -37,6 +37,7 @@ Esse projeto foi desenvolvido durante a trilha de Node.js do programa de bolsas 
 -   Eslint
 -   Docker
 -   Docker-compose
+-   Jest
 
 ## ROTAS
 

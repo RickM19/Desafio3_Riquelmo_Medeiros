@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../../../config/sequelize';
 import Customer from '../../customer/models/Customer';
-import Car from '@modules/car/models/car.model';
+import Car from '../../car/models/car.model';
 
 class Order extends Model {
     declare id: string;

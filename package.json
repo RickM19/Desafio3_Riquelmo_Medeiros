@@ -4,9 +4,11 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc",
+        "db:setup": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
         "test": "jest",
         "dev": "ts-node-dev tsconfig-paths/register --inspect --transpile-only  --ignore-watch node_modules src/shared/http/server.ts",
-        "start": "NODE_ENV=prod node build/shared/http/server.js"
+        "start": "pm2-runtime start build/shared/http/server.js --name compassApi --watch -i 0 -- node -r tsconfig-paths/register build/shared/http/server.js",
+        "lint": "eslint ."
     },
     "keywords": [],
     "author": "",

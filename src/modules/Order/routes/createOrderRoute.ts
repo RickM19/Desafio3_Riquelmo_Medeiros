@@ -7,7 +7,7 @@ import ReadOrderController from '../controller/ReadOrder';
 import DeleteOrderController from '../controller/DeleteOrder';
 import UpdateOrderController from '../controller/updateOrder';
 import ReadAll from '../controller/ReadAllOrder';
-import isAuthenticated from '@shared/http/middlewares/isAuthenticated';
+import isAuthenticated from '../../../shared/http/middlewares/isAuthenticated';
 
 const orderRoute = Router();
 

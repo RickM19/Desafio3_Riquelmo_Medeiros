@@ -1,16 +1,15 @@
-version: '3.8'
-
 services:
     app:
         build: .
-        entrypoint: .docker/entrypoint.sh
         container_name: compasscar-app
+        entrypoint: .docker/entrypoint.sh
         ports:
             - '3000:3000'
         volumes:
             - .:/home/node/app
         depends_on:
-            - db
+            db:
+                condition: service_healthy
 
     db:
         build: .docker/postgres
@@ -24,3 +23,9 @@ services:
         environment:
             - POSTGRES_PASSWORD=aefb3ai
             - POSTGRES_DB=compasscarbd
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U postgres']
+            interval: 10s
+            retries: 5
+            start_period: 30s
+            timeout: 5s
