@@ -1,5 +1,5 @@
-import userRoutes from '../../../modules/User/Routes/UserRoutes';
-import sessionRoutes from '../../../modules/User/Routes/SessionRoutes';
+import userRoutes from '../../../modules/User/routes/UserRoutes';
+import sessionRoutes from '../../../modules/User/routes/SessionRoutes';
 import orderRoute from '../../../modules/Order/routes/createOrderRoute';
 import carRoute from '../../../modules/car/routes/carRoute';
 import customerRoute from '../../../modules/customer/routes/CustomerRoutes';
