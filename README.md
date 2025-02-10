@@ -1,4 +1,4 @@
-# 💻 AWS Node - Desafio 03 API - (GRUPO:THE BIG NODE THEORY) - Riquelmo Medeiros
+# 💻 AWS Node - Desafio 03 API - Riquelmo Medeiros
 
 ## Descrição
 
